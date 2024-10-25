@@ -17,36 +17,28 @@
   <button
       v-if="isBtnShow"
       type="submit"
-      class="flex w-full justify-center rounded-md bg-cyan-600 mt-96 py-10 text-2xl font-semibold leading-6 text-white shadow-sm hover:bg-cyan-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-600"
+      class="flex w-96 justify-center items-center rounded-md bg-slate-600 mt-96 mx-auto py-14 text-4xl font-semibold leading-6 text-indigo-200 shadow-sm hover:bg-slate-300 hover:text-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-slate-600"
       @click="onSubmitPlay"
   >
-    Play
+    <img src="https://media.lordicon.com/icons/wired/gradient/29-play-pause-circle.svg" alt="playIcon" width="100"/>
+    <p class="ml-2">Play</p>
   </button>
-  <div
+  <PlayResult
       v-else
-      class="flex flex-col bg-white py-32 items-center mt-72 text-center text-black rounded-lg border-cyan-500 border-4"
-  >
-    <p class="py-2 text-2xl">{{ playResult }}</p>
-    <div class="font-bold" v-if="isWon">
-      <p class="py-2 text-2xl">Congratulation!</p>
-      <p class="py-2 text-xl">YOU WON!</p>
-      <p class="py-2 px-4 mt-6 bg-cyan-200 rounded-lg">Your balance is now {{ balance }}</p>
-    </div>
-    <div v-else>
-      <p class="text-lg">Sorry, you lost :(</p>
-    </div>
-    <button
-        class="font-semibold py-2 px-4 mt-8 text-white bg-cyan-500 rounded-lg"
-        @click="onBackToGame"
-    >
-      {{ isWon ? 'Lets play again' : 'No worries, lets play again ;)'}}
-    </button>
-  </div>
+      :isWon="isWon"
+      :balance="balance"
+      :playResult="playResult"
+      @btn-visibility="handleBtnVisibility"
+  />
+
+  <img src="../assets/images/slot-machine-symbols.svg" alt="playImage" class="-mt-24 absolute" width="400"/>
+
 </template>
 <script setup lang="ts">
 import { useUserStore } from "../stores/UserStore";
 import { ref } from "vue";
 import AuthService from "../services/auth/authService";
+import PlayResult from "./PlayResult.vue";
 
 const userStore = useUserStore();
 const username = ref(userStore.user?.name || 'Guest');
@@ -71,7 +63,7 @@ AuthService.getTokenBalance().then((response) => {
 const onLogout = () => {
   userStore.logout();
 };
-const onBackToGame = () => {
+const handleBtnVisibility = () => {
   isBtnShow.value = true;
 };
 </script>
