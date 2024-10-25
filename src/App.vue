@@ -1,7 +1,7 @@
 <script setup>
-import Register from "./components/Register.vue";
+import Play from "./components/Play.vue";
 </script>
 
 <template>
- <Register />
+ <Play />
 </template>
