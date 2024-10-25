@@ -26,21 +26,21 @@
       v-else
       class="flex flex-col bg-white py-32 items-center mt-72 text-center text-black rounded-lg border-cyan-500 border-4"
   >
+    <p class="py-2 text-2xl">{{ playResult }}</p>
     <div class="font-bold" v-if="isWon">
       <p class="py-2 text-2xl">Congratulation!</p>
       <p class="py-2 text-xl">YOU WON!</p>
-      <p class="py-2 text-2xl">{{ playResult }}</p>
-      <p class="py-2 mt-6 bg-cyan-200 rounded-lg">Your balance is now {{ balance }}</p>
+      <p class="py-2 px-4 mt-6 bg-cyan-200 rounded-lg">Your balance is now {{ balance }}</p>
     </div>
     <div v-else>
-      <p class="text-lg mb-8">Sorry, you lost :(</p>
-      <button
-          class="font-semibold py-2 px-4 text-white bg-cyan-500 rounded-lg"
-          @click="onBackToGame"
-      >
-        No worries, lets play again ;)
-      </button>
+      <p class="text-lg">Sorry, you lost :(</p>
     </div>
+    <button
+        class="font-semibold py-2 px-4 mt-8 text-white bg-cyan-500 rounded-lg"
+        @click="onBackToGame"
+    >
+      {{ isWon ? 'Lets play again' : 'No worries, lets play again ;)'}}
+    </button>
   </div>
 </template>
 <script setup lang="ts">
