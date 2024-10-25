@@ -40,7 +40,13 @@
             </div>
 
             <div>
-              <button type="submit" class="flex w-full justify-center rounded-md bg-cyan-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-cyan-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-600">Login</button>
+              <button
+                  type="submit"
+                  class="flex w-full justify-center rounded-md bg-cyan-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-cyan-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-600"
+                  @click="onSubmit"
+              >
+                Login
+              </button>
             </div>
           </form>
 
@@ -91,6 +97,10 @@ const preLoader = ref<boolean>(true);
 setTimeout(() => {
   preLoader.value = false;
 }, 500);
+
+const onSubmit = () => {
+  console.log('Login button clicked');
+};
 
 // const onSubmit = () => {
 //   userStore.login(email.value);
