@@ -82,24 +82,13 @@
     </div>
   </template>
 
-  <!--  <div-->
-<!--    v-show="!isLoading"-->
-<!--    class="app login-container"-->
-<!--    data-qa-id="login-container"-->
-<!--  >-->
-<!--    salam-->
-<!--  </div>-->
-
 <script setup lang="ts">
 import { ref, computed } from 'vue';
 import { LoginRequest } from "../stores/type";
 import { useUserStore } from "../stores/UserStore";
 import router from "../router";
-// import { storeToRefs } from 'pinia';
-// import {useUserStore} from "@/stores/UserStore";
 
 const userStore = useUserStore();
-// const { status } = storeToRefs(userStore);
 
 const preLoader = ref<boolean>(true);
 const loginForm = ref<LoginRequest | null>({
@@ -107,9 +96,6 @@ const loginForm = ref<LoginRequest | null>({
   password: '',
   token: '',
 });
-
-// const isLogin = computed(() => status.value === 'login');
-// const isLoading = computed(() => preLoader.value || status.value === 'loading');
 
 setTimeout(() => {
   preLoader.value = false;
@@ -124,8 +110,4 @@ const onLoginRequest = async () => {
     alert('User not found');
   }
 };
-
-// const onSubmit = () => {
-//   userStore.login(email.value);
-// };
 </script>
