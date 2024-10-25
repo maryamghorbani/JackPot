@@ -140,6 +140,7 @@ const passwordsMatch = () => {
 
 const onRegister = async () => {
   passwordsMatch();
+  if (!isPasswordMatch.value) return;
   const data = await userStore.register();
 
   userStore.setTotpDevice(data.user.totp_device);
