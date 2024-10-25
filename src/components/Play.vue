@@ -25,13 +25,19 @@
 <script setup lang="ts">
 import { useUserStore } from "../stores/UserStore";
 import { ref } from "vue";
+import AuthService from "../services/auth/authService";
 
 const userStore = useUserStore();
 const username = ref(userStore.user?.name || 'Guest');
-const balance = ref(10);
+const balance = ref();
 const onSubmitPlay = () => {
   console.log('Play button clicked');
 };
+
+AuthService.getTokenBalance().then((response) => {
+  console.log(response.balance)
+  balance.value = response.balance;
+});
 const onLogout = () => {
   userStore.logout();
 };

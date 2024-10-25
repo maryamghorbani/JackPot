@@ -1,4 +1,4 @@
-import {LoginBody, LoginRequest, ReturnedUser, User} from "../../stores/type";
+import {LoginBody, ReturnedUser} from "../../stores/type";
 
 class AuthService {
   public registerReturnedForm = {
@@ -23,6 +23,11 @@ class AuthService {
     }
   };
 
+  public tokenBalance = {
+    balance: 100,
+    updated_at: "2024-10-25T07:14:01.279002Z"
+  };
+
   login = async (): Promise<LoginBody> => {
     return this.loggedUser;
   };
@@ -33,6 +38,10 @@ class AuthService {
 
   logout = async (): Promise<void> => {
     console.log('user logged out');
+  };
+
+  getTokenBalance = async (): Promise<Record<string, string|number>> => {
+    return this.tokenBalance;
   };
 }
 
