@@ -30,3 +30,16 @@ export type ReturnedUser = {
     message: string,
 };
 
+export type PlayData = {
+    play: {
+        slot_machine: {
+            name: string,
+            jackpot: number,
+        },
+        result: string[],
+        won: boolean,
+        played_at: string,
+    },
+    balance: number,
+};
+

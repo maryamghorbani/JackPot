@@ -1,4 +1,4 @@
-import {LoginBody, ReturnedUser} from "../../stores/type";
+import {LoginBody, PlayData, ReturnedUser} from "../../stores/type";
 
 class AuthService {
   public registerReturnedForm = {
@@ -24,9 +24,27 @@ class AuthService {
   };
 
   public tokenBalance = {
-    balance: 100,
+    balance: 1,
     updated_at: "2024-10-25T07:14:01.279002Z"
   };
+
+  public playData = {
+    play: {
+      slot_machine: {
+        name: "A2",
+        jackpot: 0
+      },
+      result: [
+        "🍒",
+        "🍒",
+        "🍒",
+        "🍒"
+      ],
+      won: false,
+      played_at: "2024-10-25T09:48:52.604016Z"
+    },
+    balance: 11
+  }
 
   login = async (): Promise<LoginBody> => {
     return this.loggedUser;
@@ -42,6 +60,10 @@ class AuthService {
 
   getTokenBalance = async (): Promise<Record<string, string|number>> => {
     return this.tokenBalance;
+  };
+
+  getPlayData = async (): Promise<PlayData> => {
+    return this.playData;
   };
 }
 
