@@ -115,7 +115,7 @@
   </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue';
+import { ref } from 'vue';
 import type { RegisterRequest } from '../stores/type';
 import { useUserStore } from "../stores/UserStore";
 import router from "../router";

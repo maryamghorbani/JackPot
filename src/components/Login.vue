@@ -87,6 +87,7 @@ import { ref, computed } from 'vue';
 import { LoginRequest } from "../stores/type";
 import { useUserStore } from "../stores/UserStore";
 import router from "../router";
+import authService from "../services/auth/authService";
 
 const userStore = useUserStore();
 
@@ -102,8 +103,20 @@ setTimeout(() => {
 }, 500);
 
 const onLoginRequest = async () => {
-  const isUser = await userStore.login(loginForm.value);
+  let isUser = false;
+  const response = await userStore.login();
+  try {
+    if (response.success) {
+      isUser = true;
+    } else {
+      isUser = true;
+    }
+  } catch (error) {
+    console.error('Login error:', error);
+    return false;
+  }
   if (isUser) {
+    userStore.setUser(response.user);
     alert(`Welcome, ${userStore.user?.name}`);
     await router.push({name: 'play'});
   } else {

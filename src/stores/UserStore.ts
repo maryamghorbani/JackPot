@@ -19,9 +19,9 @@ export const useUserStore = defineStore('user', {
     setStatus(status: Status) {
       this.status = status;
       },
-    async login(loginRequest: LoginRequest) {
+    async login() {
       this.setStatus('login');
-      await authService.login(loginRequest);
+      return await authService.login();
     },
     async register() {
       this.setStatus('register');
@@ -36,8 +36,8 @@ export const useUserStore = defineStore('user', {
       if (!token) return;
       await this.setUser();
     },
-    setUser() {
-
+    setUser(value) {
+      this.user = value;
     },
     setTotpDevice(value) {
       this.totpDevice = value;

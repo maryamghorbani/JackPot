@@ -4,7 +4,7 @@ export type User = {
     email: string,
     name: string,
     birthdate: string,
-    totp_device: string,
+    totp_device?: string,
 };
 
 export type RegisterRequest = {
@@ -12,6 +12,11 @@ export type RegisterRequest = {
     name: string,
     birthdate: string
     password: string,
+};
+
+export type LoginBody = {
+    token: Record<string, string>,
+    user: User,
 };
 
 export type LoginRequest = {
