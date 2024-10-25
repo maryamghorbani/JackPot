@@ -1,10 +1,6 @@
 import {LoginBody, LoginRequest, ReturnedUser, User} from "../../stores/type";
 
 class AuthService {
-  private initialized = false;
-  private account?:User;
-  public accessToken: string;
-
   public registerReturnedForm = {
     user: {
       email: "ali58@gmail.com",
@@ -35,25 +31,8 @@ class AuthService {
     return this.registerReturnedForm;
   };
 
-  initialize = async (): Promise<void> => {
-    if (this.initialized) return;
-    this.initialized = true;
-  };
-
   logout = async (): Promise<void> => {
     console.log('user logged out');
-  };
-
-  getToken = async (): Promise<string> => {
-    await this.initialize();
-    // Try to grab account from storage if present
-    if (!this.account) {
-    }
-    // If account found start auth process
-    if (this.account) {
-      // Acquiring token
-    }
-    return this.accessToken;
   };
 }
 

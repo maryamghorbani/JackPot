@@ -31,11 +31,6 @@ export const useUserStore = defineStore('user', {
       this.setStatus('logout');
       await authService.logout();
     },
-    async restoreSession() {
-      const token = await authService.getToken();
-      if (!token) return;
-      await this.setUser();
-    },
     setUser(value) {
       this.user = value;
     },
