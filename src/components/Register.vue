@@ -1,5 +1,4 @@
   <template>
-    salam
     <div class="flex min-h-full flex-1 flex-col justify-center sm:px-6 lg:px-8">
       <div class="sm:mx-auto sm:w-full sm:max-w-md">
         <h2 class="mt-6 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">Register</h2>
@@ -46,7 +45,7 @@
                     name="birthDate"
                     type="date"
                     required=""
-                    class="block w-full rounded-md border-0 p-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-cyan-600 sm:text-sm sm:leading-6"
+                    class="block w-full rounded-md border-0 p-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-cyan-600 sm:text-sm sm:leading-6"
                 />
               </div>
             </div>
@@ -106,7 +105,7 @@
             <p class="mt-6 text-center text-sm text-gray-500">
               Do you have an account?
               {{ ' ' }}
-              <a href="#" class="font-semibold leading-6 text-cyan-600 hover:text-cyan-500">Login</a>
+              <router-link to="/login" class="font-semibold leading-6 text-cyan-600 hover:text-cyan-500">Login</router-link>
             </p>
 
           </div>
@@ -127,9 +126,9 @@
 import { ref, computed } from 'vue';
 import type { User } from '../stores/type';
 // import { storeToRefs } from 'pinia';
-// import {useUserStore} from "@/stores/UserStore";
+import { useUserStore } from "../stores/UserStore";
 
-// const userStore = useUserStore();
+const userStore = useUserStore();
 // const { status } = storeToRefs(userStore);
 
 const registerForm = ref<User | null>({
@@ -158,7 +157,7 @@ setTimeout(() => {
 
 const onRegister = () => {
   passwordsMatch();
-  console.log('Register button clicked', registerForm.value);
+  userStore.register(registerForm.value);
 };
 
 // const onSubmit = () => {

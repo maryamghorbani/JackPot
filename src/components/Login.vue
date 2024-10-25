@@ -95,7 +95,7 @@
             <p class="mt-6 text-center text-sm text-gray-500">
               Not a member?
               {{ ' ' }}
-              <a href="./Register" class="font-semibold leading-6 text-cyan-600 hover:text-cyan-500">Register</a>
+              <router-link to="/register" class="font-semibold leading-6 text-cyan-600 hover:text-cyan-500">Register</router-link>
             </p>
 
           </div>
@@ -115,10 +115,11 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue';
 import { LoginRequest } from "../stores/type";
+import { useUserStore } from "../stores/UserStore";
 // import { storeToRefs } from 'pinia';
 // import {useUserStore} from "@/stores/UserStore";
 
-// const userStore = useUserStore();
+const userStore = useUserStore();
 // const { status } = storeToRefs(userStore);
 
 const preLoader = ref<boolean>(true);
@@ -137,7 +138,7 @@ setTimeout(() => {
 }, 500);
 
 const onLoginRequest = () => {
-  console.log('Login button clicked', loginForm.value);
+  userStore.login(loginForm.value);
 };
 
 // const onSubmit = () => {
