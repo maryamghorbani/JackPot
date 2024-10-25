@@ -4,7 +4,7 @@ export type User = {
     id: number,
     email: string,
     name: string,
-    birthDate: string,
+    birthdate: string,
     password: string,
     confirmPassword: string,
 };

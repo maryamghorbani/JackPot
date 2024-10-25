@@ -37,12 +37,12 @@
             </div>
 
             <div>
-              <label for="birthDate" class="block text-sm font-medium leading-6 text-gray-900">Birth date</label>
+              <label for="birthdate" class="block text-sm font-medium leading-6 text-gray-900">Birth date</label>
               <div class="mt-2">
                 <input
-                    id="birthDate"
-                    v-model="registerForm.birthDate"
-                    name="birthDate"
+                    id="birthdate"
+                    v-model="registerForm.birthdate"
+                    name="birthdate"
                     type="date"
                     required=""
                     class="block w-full rounded-md border-0 p-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-cyan-600 sm:text-sm sm:leading-6"
@@ -135,7 +135,7 @@ const registerForm = ref<User | null>({
   id: 0,
   email: '',
   name: '',
-  birthDate: '',
+  birthdate: '',
   password: '',
   confirmPassword: '',
 });
