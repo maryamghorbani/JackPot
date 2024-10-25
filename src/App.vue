@@ -1,7 +1,7 @@
 <script setup>
-import AuthLogin from "./components/AuthLogin.vue";
+import Register from "./components/Register.vue";
 </script>
 
 <template>
- <AuthLogin />
+ <Register />
 </template>
