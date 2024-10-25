@@ -50,32 +50,10 @@
               </div>
             </div>
 
-            <div class="flex items-center justify-between">
-              <div class="flex items-center">
-                <input
-                    id="remember-me"
-                    v-model="loginForm.remember"
-                    name="remember-me"
-                    type="checkbox"
-                    class="h-4 w-4 rounded border-gray-300 text-cyan-600 focus:ring-cyan-600"
-                />
-                <label
-                    for="remember-me"
-                    class="ml-3 block text-sm leading-6 text-gray-900"
-                >
-                  Remember me
-                </label>
-              </div>
-
-              <div class="text-sm leading-6">
-                <a href="#" class="font-semibold text-cyan-600 hover:text-cyan-500">Forgot password?</a>
-              </div>
-            </div>
-
             <div>
               <button
                   type="submit"
-                  class="flex w-full justify-center rounded-md bg-cyan-600 px-3 py-2 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-cyan-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-600"
+                  class="flex w-full justify-center rounded-md bg-cyan-600 mt-10 px-3 py-2 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-cyan-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-600"
               >
                 Login
               </button>
@@ -128,7 +106,6 @@ const loginForm = ref<LoginRequest | null>({
   email: '',
   password: '',
   token: '',
-  remember: false,
 });
 
 // const isLogin = computed(() => status.value === 'login');
