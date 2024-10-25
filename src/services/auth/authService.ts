@@ -17,7 +17,9 @@ class AuthService {
     this.initialized = true;
   };
 
-  logout = async (): Promise<void> => {};
+  logout = async (): Promise<void> => {
+    console.log('user logged out');
+  };
 
   getToken = async (): Promise<string> => {
     await this.initialize();

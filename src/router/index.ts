@@ -28,6 +28,7 @@ const router = createRouter({
     },
     {
       path: '/play',
+      name: 'play',
       meta: {
         requiresPublic: true,
       },
@@ -36,14 +37,14 @@ const router = createRouter({
   ],
 });
 
-router.beforeEach(async (to, from, next) => {
-  const userStore = useUserStore();
-  const { user } = userStore;
-
-  // Check token and restore session
-  if (!authService.accessToken) {
-    await userStore.restoreSession();
-  }
-});
+// router.beforeEach(async (to, from, next) => {
+//   const userStore = useUserStore();
+//   const { user } = userStore;
+//
+//   // Check token and restore session
+//   if (!authService.accessToken) {
+//     await userStore.restoreSession();
+//   }
+// });
 
 export default router

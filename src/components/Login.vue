@@ -116,6 +116,7 @@
 import { ref, computed } from 'vue';
 import { LoginRequest } from "../stores/type";
 import { useUserStore } from "../stores/UserStore";
+import router from "../router";
 // import { storeToRefs } from 'pinia';
 // import {useUserStore} from "@/stores/UserStore";
 
@@ -137,8 +138,14 @@ setTimeout(() => {
   preLoader.value = false;
 }, 500);
 
-const onLoginRequest = () => {
-  userStore.login(loginForm.value);
+const onLoginRequest = async () => {
+  const isUser = await userStore.login(loginForm.value);
+  if (isUser) {
+    alert(`Welcome, ${userStore.user?.name}`);
+    await router.push({name: 'play'});
+  } else {
+    alert('User not found');
+  }
 };
 
 // const onSubmit = () => {
