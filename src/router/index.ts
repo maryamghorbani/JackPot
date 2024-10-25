@@ -2,8 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router';
 import Login from "../components/Login.vue";
 import Register from "../components/Register.vue";
 import Play from "../components/Play.vue";
-import { useUserStore } from "../stores/UserStore";
-import authService from "../services/auth/authService";
+import ShowBarcode from "../components/ShowBarcode.vue";
 
 const router = createRouter({
   history: createWebHistory(),
@@ -33,6 +32,11 @@ const router = createRouter({
         requiresPublic: true,
       },
       component: Play,
+    },
+    {
+      path: '/show-barcode',
+      name: 'ShowBarcode',
+      component: ShowBarcode,
     },
   ],
 });

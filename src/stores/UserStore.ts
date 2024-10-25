@@ -1,14 +1,19 @@
 import { defineStore } from 'pinia';
 import authService from '../services/auth/authService';
-import type { User, Status, LoginRequest } from './type';
+import type { User, Status, LoginRequest, RegisterRequest } from './type';
+
 
 export const useUserStore = defineStore('user', {
   state: (): {
     status: Status
     user: User | null
+    totpDevice: string,
+    message: string,
   } => ({
     status: 'logout',
     user: null,
+    totpDevice: '',
+    message: '',
   }),
   actions:{
     setStatus(status: Status) {
@@ -18,9 +23,9 @@ export const useUserStore = defineStore('user', {
       this.setStatus('login');
       await authService.login(loginRequest);
     },
-    async register(registerForm: User) {
+    async register() {
       this.setStatus('register');
-      await authService.register(registerForm);
+      return await authService.register();
     },
     async logout() {
       this.setStatus('logout');
@@ -33,6 +38,12 @@ export const useUserStore = defineStore('user', {
     },
     setUser() {
 
-    }
+    },
+    setTotpDevice(value) {
+      this.totpDevice = value;
+    },
+    setMessage(value) {
+      this.message = value;
+    },
   },
 });

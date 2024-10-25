@@ -70,7 +70,7 @@
               <div class="mt-2">
                 <input
                     id="confirmPassword"
-                    v-model="registerForm.confirmPassword"
+                    v-model="confirmPassword"
                     name="confirmPassword"
                     type="password"
                     autocomplete="current-password"
@@ -114,53 +114,44 @@
     </div>
   </template>
 
-  <!--  <div-->
-<!--    v-show="!isLoading"-->
-<!--    class="app login-container"-->
-<!--    data-qa-id="login-container"-->
-<!--  >-->
-<!--    salam-->
-<!--  </div>-->
-
 <script setup lang="ts">
 import { ref, computed } from 'vue';
-import type { User } from '../stores/type';
-// import { storeToRefs } from 'pinia';
+import type { RegisterRequest } from '../stores/type';
 import { useUserStore } from "../stores/UserStore";
+import router from "../router";
 
 const userStore = useUserStore();
-// const { status } = storeToRefs(userStore);
 
-const registerForm = ref<User | null>({
-  id: 0,
+const registerForm = ref<RegisterRequest | null>({
   email: '',
   name: '',
   birthdate: '',
   password: '',
-  confirmPassword: '',
 });
+const confirmPassword = ref<string>('');
 const isPasswordMatch = ref(true);
 
 const preLoader = ref<boolean>(true);
 
 const passwordsMatch = () => {
-  registerForm.value.password === registerForm.value.confirmPassword ? isPasswordMatch.value = true : isPasswordMatch.value = false;
+  registerForm.value.password === confirmPassword.value ? isPasswordMatch.value = true : isPasswordMatch.value = false;
   return isPasswordMatch;
 };
 
-// const isLogin = computed(() => status.value === 'login');
-// const isLoading = computed(() => preLoader.value || status.value === 'loading');
-
-setTimeout(() => {
-  preLoader.value = false;
-}, 500);
-
-const onRegister = () => {
+const onRegister = async () => {
   passwordsMatch();
-  userStore.register(registerForm.value);
+  const data = await userStore.register();
+
+  userStore.setTotpDevice(data.user.totp_device);
+  userStore.setMessage(data.message);
+
+  await router.push({
+    name: 'ShowBarcode',
+    params: {
+      totpDevice: data.user.totp_device,
+      message: data.message
+    }
+  });
 };
 
-// const onSubmit = () => {
-//   userStore.login(email.value);
-// };
 </script>
