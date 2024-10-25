@@ -6,32 +6,65 @@
 
       <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-[560px]">
         <div class="bg-white px-6 py-12 shadow sm:rounded-lg sm:px-12">
-          <form class="space-y-6" action="#" method="POST">
+          <form class="space-y-6" @submit.prevent="onLoginRequest">
             <div>
               <label for="email" class="block text-sm font-medium leading-6 text-gray-900">Email address</label>
               <div class="mt-2">
-                <input id="email" name="email" type="email" autocomplete="email" required="" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-cyan-600 sm:text-sm sm:leading-6" />
+                <input
+                    id="email"
+                    v-model="loginForm.email"
+                    name="email"
+                    type="email"
+                    autocomplete="email"
+                    required=""
+                    class="block w-full rounded-md border-0 p-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-cyan-600 sm:text-sm sm:leading-6"
+                />
               </div>
             </div>
 
             <div>
               <label for="password" class="block text-sm font-medium leading-6 text-gray-900">Password</label>
               <div class="mt-2">
-                <input id="password" name="password" type="password" autocomplete="current-password" required="" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-cyan-600 sm:text-sm sm:leading-6" />
+                <input
+                    id="password"
+                    v-model="loginForm.password"
+                    name="password"
+                    type="password"
+                    autocomplete="current-password"
+                    required=""
+                    class="block w-full rounded-md border-0 p-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-cyan-600 sm:text-sm sm:leading-6"
+                />
               </div>
             </div>
 
             <div>
               <label for="token" class="block text-sm font-medium leading-6 text-gray-900">Token</label>
               <div class="mt-2">
-                <input id="token" name="token" type="text" required="" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-cyan-600 sm:text-sm sm:leading-6" />
+                <input
+                    id="token"
+                    v-model="loginForm.token"
+                    name="token"
+                    type="text" required=""
+                    class="block w-full rounded-md border-0 p-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-cyan-600 sm:text-sm sm:leading-6"
+                />
               </div>
             </div>
 
             <div class="flex items-center justify-between">
               <div class="flex items-center">
-                <input id="remember-me" name="remember-me" type="checkbox" class="h-4 w-4 rounded border-gray-300 text-cyan-600 focus:ring-cyan-600" />
-                <label for="remember-me" class="ml-3 block text-sm leading-6 text-gray-900">Remember me</label>
+                <input
+                    id="remember-me"
+                    v-model="loginForm.remember"
+                    name="remember-me"
+                    type="checkbox"
+                    class="h-4 w-4 rounded border-gray-300 text-cyan-600 focus:ring-cyan-600"
+                />
+                <label
+                    for="remember-me"
+                    class="ml-3 block text-sm leading-6 text-gray-900"
+                >
+                  Remember me
+                </label>
               </div>
 
               <div class="text-sm leading-6">
@@ -42,8 +75,7 @@
             <div>
               <button
                   type="submit"
-                  class="flex w-full justify-center rounded-md bg-cyan-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-cyan-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-600"
-                  @click="onSubmit"
+                  class="flex w-full justify-center rounded-md bg-cyan-600 px-3 py-2 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-cyan-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-600"
               >
                 Login
               </button>
@@ -63,7 +95,7 @@
             <p class="mt-6 text-center text-sm text-gray-500">
               Not a member?
               {{ ' ' }}
-              <a href="#" class="font-semibold leading-6 text-cyan-600 hover:text-cyan-500">Register</a>
+              <a href="./Register" class="font-semibold leading-6 text-cyan-600 hover:text-cyan-500">Register</a>
             </p>
 
           </div>
@@ -82,14 +114,20 @@
 
 <script setup lang="ts">
 import { ref, computed } from 'vue';
+import { LoginRequest } from "../stores/type";
 // import { storeToRefs } from 'pinia';
 // import {useUserStore} from "@/stores/UserStore";
 
 // const userStore = useUserStore();
 // const { status } = storeToRefs(userStore);
 
-const email = ref<string>('');
 const preLoader = ref<boolean>(true);
+const loginForm = ref<LoginRequest | null>({
+  email: '',
+  password: '',
+  token: '',
+  remember: false,
+});
 
 // const isLogin = computed(() => status.value === 'login');
 // const isLoading = computed(() => preLoader.value || status.value === 'loading');
@@ -98,8 +136,8 @@ setTimeout(() => {
   preLoader.value = false;
 }, 500);
 
-const onSubmit = () => {
-  console.log('Login button clicked');
+const onLoginRequest = () => {
+  console.log('Login button clicked', loginForm.value);
 };
 
 // const onSubmit = () => {
