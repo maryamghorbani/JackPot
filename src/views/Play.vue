@@ -32,8 +32,6 @@
       @btn-visibility="handleBtnVisibility"
   />
 
-  <img src="../assets/images/slot-machine-symbols.svg" alt="playImage" class="-mt-24 absolute" width="400"/>
-
   <!-- Error Popup -->
   <div v-if="showErrorPopup" class="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50">
     <div class="bg-white p-6 rounded shadow-lg max-w-md w-full">

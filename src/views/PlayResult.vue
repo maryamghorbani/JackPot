@@ -1,30 +1,19 @@
 <template>
-  <div class="flex flex-col bg-white py-10 items-center mt-64 text-center text-black rounded-lg shadow-md">
-    <div class="relative w-56 h-56 -mt-32 rounded-full bg-slate-700 flex items-center justify-center border-4 border-slate-200">
-      <div class="absolute inset-3 rounded-full border-4 border-cyan-500"></div>
-      <span class="relative text-slate-200 font-black text-xl">
-        {{ isWon ? 'YOU WON!' : 'YOU LOST!' }}
-      </span>
+  <div class="play-area">
+    <div class="slot-machine-frame">
+      <div class="result-text">{{ isWon ? 'YOU WON!' : 'YOU LOST!' }}</div>
+      <div class="symbols-display">
+        <span v-for="(item, index) in currentSymbols" :key="index" :class="{'symbol': true, 'spin': isLoading}">
+          {{ item }}
+        </span>
+      </div>
     </div>
 
-    <!-- Slot Machine Spinner/Loader -->
-    <p class="pt-20 pb-10 text-6xl">
-      <span class="px-4" v-for="(symbol, index) in currentSymbols" :key="index">
-        {{ symbol }}
-      </span>
+    <p class="balance-text">
+      {{ isWon ? `Your balance now is ${balance} 😉` : 'Sorry, you lost 😔' }}
     </p>
-
-    <div class="font-bold" v-if="isWon">
-      <p class="py-2 px-4 mt-6 text-slate-500">Your balance now is {{ balance }} ;)</p>
-    </div>
-    <div v-else>
-      <p class="font-bold py-2 px-4 mt-6 text-slate-500">Sorry, you lost :(</p>
-    </div>
-    <button
-        class="font-semibold py-2 px-4 mt-8 text-white bg-cyan-500 rounded-lg"
-        @click="onBackToGame"
-    >
-      {{ isWon ? 'Let’s play again' : 'No worries, let’s play again ;)'}}
+    <button @click="onBackToGame" class="play-again-button">
+      {{ isWon ? 'Let’s play again' : 'No worries, let’s play again 😉' }}
     </button>
   </div>
 </template>
@@ -77,3 +66,78 @@ onUnmounted(() => {
   });
 });
 </script>
+<style scoped>
+.play-area {
+  display: flex;
+  flex-direction: column;
+  margin-top: 12em;
+  border-radius: 1em;
+  align-items: center;
+  background: linear-gradient(135deg, #1e3c72, #2a5298);
+  min-height: 60vh;
+  color: #fff;
+}
+
+.slot-machine-frame {
+  background-color: #333;
+  padding: 20px;
+  border-radius: 15px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+  text-align: center;
+  margin-top: 60px;
+}
+
+.result-text {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #f7e600;
+  margin-bottom: 20px;
+}
+
+.symbols-display {
+  display: flex;
+  justify-content: center;
+  font-size: 4rem;
+  padding: 20px 0;
+  border-top: 3px solid #888;
+  border-bottom: 3px solid #888;
+}
+
+.symbol {
+  padding: 0 15px;
+}
+
+.spin {
+  animation: spin 0.8s linear infinite;
+}
+
+.balance-text {
+  font-size: 1.2rem;
+  color: #ddd;
+  margin-top: 20px;
+}
+
+.play-again-button {
+  padding: 10px 20px;
+  margin-top: 30px;
+  font-size: 1.5rem;
+  color: #fff;
+  background-color: #28a745;
+  border: none;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.play-again-button:hover {
+  background-color: #218838;
+  transform: scale(1.05);
+}
+
+@keyframes spin {
+  0% { transform: scale(1) rotate(0deg); }
+  50% { transform: scale(1.1) rotate(180deg); }
+  100% { transform: scale(1) rotate(360deg); }
+}
+</style>
