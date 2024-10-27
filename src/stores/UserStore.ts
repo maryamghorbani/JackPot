@@ -44,7 +44,7 @@ export const useUserStore = defineStore('user', {
     },
     clearUser() {
       this.loggedUser = null;
-      localStorage.removeItem('loggedUser'); // Clear from localStorage
+      localStorage.removeItem('loggedUser');
     },
   },
 });

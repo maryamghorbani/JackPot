@@ -32,6 +32,7 @@
         :is-loading-process="isLoading"
         :isWon="isWon"
         :balance="balance"
+        :slot-machine-name="slotMachineName"
         :playResult="playResult"
         @btn-visibility="handleBtnVisibility"
     />
@@ -67,22 +68,23 @@ const playResult = ref([]);
 const showErrorPopup = ref(false);
 const errorMessage = ref('');
 const isLoading = ref(false);
+const slotMachineName = ref('');
 
 const onSubmitPlay = async () => {
   try {
     isLoading.value = true;
-    isBtnShow.value = false; // Hide the play button immediately
+    isBtnShow.value = false;
 
-    // Start a loading delay of 4 seconds before showing the final result
     const response = await getPlayData();
-    playResult.value = response.play.result; // Show final play result after delay
+    playResult.value = response.play.result;
     setTimeout(() => {
       isLoading.value = false;
-      isWon.value = response.play.won; // Update win/loss status after delay
-      balance.value = response.balance; // Update token balance after delay
+      slotMachineName.value = response.play.slot_machine.name;
+      isWon.value = response.play.won;
+      balance.value = response.balance;
     }, 3000);
   } catch (error: any) {
-    // Handle error as before
+
     if (error.response && error.response.status === 403) {
       isBtnShow.value = true;
       errorMessage.value = error.response.data.error;

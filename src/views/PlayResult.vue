@@ -1,6 +1,9 @@
 <template>
   <div class="play-area">
     <div class="slot-machine-frame">
+
+      <div v-if="!isLoadingProcess" class="slot-machine-name">{{ slotMachineName }}</div>
+
       <div v-if="!isLoadingProcess" class="result-text">{{ isWon ? 'YOU WON!' : 'YOU LOST!' }}</div>
       <div class="symbols-display">
         <span v-for="(item, index) in currentSymbols" :key="index" :class="{'symbol': true, 'spin': isLoading}">
@@ -25,6 +28,7 @@ const props = defineProps<{
   isLoadingProcess: boolean;
   isWon: boolean;
   balance: number;
+  slotMachineName: string;
   playResult: string[];
 }>();
 
@@ -74,7 +78,7 @@ onUnmounted(() => {
   border-radius: 1em;
   align-items: center;
   background: linear-gradient(135deg, rgba(115, 119, 178, 0.6), rgba(15, 18, 56, 0.6));
-  min-height: 60vh;
+  min-height: 50vh;
   min-width: 60vw;
   color: #fff;
 }
@@ -88,10 +92,25 @@ onUnmounted(() => {
   margin-top: 60px;
 }
 
+.slot-machine-name {
+  position: absolute;
+  left: 50%;
+  margin-top:-1.5em;
+  transform: translateX(-50%);
+  color: #333;
+  background-color: #f7e600;
+  font-size: 1.5rem;
+  font-weight: bold;
+  padding: 2px 40px;
+  border-radius: 5px;
+  box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.2);
+}
+
 .result-text {
   font-size: 2rem;
   font-weight: bold;
   color: #f7e600;
+  margin-top: .8em;
   margin-bottom: 20px;
 }
 
