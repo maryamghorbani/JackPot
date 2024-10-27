@@ -19,13 +19,13 @@ export const useUserStore = defineStore('user', {
     setStatus(status: Status) {
       this.status = status;
       },
-    async login() {
+    async login(userData: LoginRequest) {
       this.setStatus('login');
-      return await authService.login();
+      return await authService.login(userData);
     },
     async register(userData: RegisterRequest) {
       this.setStatus('register');
-      return await authService.register();
+      return await authService.register(userData);
     },
     async logout() {
       this.setStatus('logout');

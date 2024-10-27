@@ -60,16 +60,30 @@
             </div>
           </form>
 
-          <div>
-            <div class="relative mt-10">
-              <div class="absolute inset-0 flex items-center" aria-hidden="true">
-                <div class="w-full border-t border-gray-200" />
-              </div>
-              <div class="relative flex justify-center text-sm font-medium leading-6">
-                <span class="bg-white px-6 text-gray-900">Or continue with</span>
-              </div>
+          <!-- Success -->
+          <div v-if="showSuccessPopup" class="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50">
+            <div class="bg-white p-6 rounded shadow-lg max-w-md w-full">
+              <h3 class="text-lg font-semibold text-green-600">Login Successful</h3>
+              <p class="mt-4 text-sm text-gray-700">
+                You have successfully logged in!
+              </p>
             </div>
+          </div>
 
+          <!-- Error -->
+          <div v-if="showLoginError" class="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50">
+            <div class="bg-white p-6 rounded shadow-lg max-w-md w-full">
+              <h3 class="text-lg font-semibold text-red-600">Login Error</h3>
+              <p class="mt-4 text-sm text-gray-700">
+                {{ showErrorPopup }}
+              </p>
+              <button @click="showLoginError = false" class="mt-4 px-4 py-2 bg-cyan-600 text-white rounded">
+                Close
+              </button>
+            </div>
+          </div>
+
+          <div>
             <p class="mt-6 text-center text-sm text-gray-500">
               Not a member?
               {{ ' ' }}
@@ -97,30 +111,33 @@ const loginForm = ref<LoginRequest | null>({
   password: '',
   token: '',
 });
+const showLoginError = ref(false);
+const showErrorPopup = ref('');
+const showSuccessPopup = ref(false);
 
 setTimeout(() => {
   preLoader.value = false;
 }, 500);
 
 const onLoginRequest = async () => {
-  let isUser = false;
-  const response = await userStore.login();
   try {
-    if (response.success) {
-      isUser = true;
-    } else {
-      isUser = true;
-    }
-  } catch (error) {
-    console.error('Login error:', error);
-    return false;
-  }
-  if (isUser) {
+    const response = await authService.login(loginForm.value);
     userStore.setUser(response.user);
-    alert(`Welcome, ${userStore.user?.name}`);
-    await router.push({name: 'play'});
-  } else {
-    alert('User not found');
+
+    showSuccessPopup.value = true;
+
+    setTimeout(async () => {
+      showSuccessPopup.value = false;
+      await router.push({ name: 'play' });
+    }, 2000);
+
+  } catch (error: any) {
+    if (error.response && error.response.status !== 200) {
+      showErrorPopup.value = "Your login information is incorrect. Please check and try again.";
+    } else {
+      showErrorPopup.value = "An unexpected error occurred. Please try again later.";
+    }
+    showLoginError.value = true;
   }
 };
 </script>
