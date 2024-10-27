@@ -37,11 +37,13 @@
 <script setup lang="ts">
 import { useUserStore } from "../stores/UserStore";
 import { ref } from "vue";
-import authService from "../services/auth/AuthService";
+import authService from "../services/AuthService/AuthService";
+import { getTokenBalance } from "../services/TokenService/TokenService";
 import PlayResult from "./PlayResult.vue";
+import {LoggedUser} from "../stores/type";
 
 const userStore = useUserStore();
-const username = ref(userStore.user?.name || 'Guest');
+const username = ref(userStore.loggedUser?.user.name || 'Guest');
 const balance = ref();
 const isBtnShow = ref(true);
 const isWon = ref(false);
@@ -56,8 +58,7 @@ const onSubmitPlay = () => {
   });
 };
 
-authService.getTokenBalance().then((response) => {
-  console.log(response.balance)
+getTokenBalance().then((response) => {
   balance.value = response.balance;
 });
 const onLogout = () => {

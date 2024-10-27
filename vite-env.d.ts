@@ -1,5 +1,6 @@
 interface ImportMetaEnv {
-    readonly VITE_JACK_POT_SERVICE_URL: string;
+    readonly VITE_AUTH_SERVICE_URL: string;
+    readonly VITE_TOKEN_SERVICE_URL: string;
 }
 
 interface ImportMeta {

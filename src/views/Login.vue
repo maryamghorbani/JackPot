@@ -101,7 +101,7 @@ import { ref, computed } from 'vue';
 import { LoginRequest } from "../stores/type";
 import { useUserStore } from "../stores/UserStore";
 import router from "../router";
-import authService from "../services/auth/AuthService";
+import authService from "../services/AuthService/AuthService";
 
 const userStore = useUserStore();
 
@@ -122,8 +122,9 @@ setTimeout(() => {
 const onLoginRequest = async () => {
   try {
     const response = await authService.login(loginForm.value);
-    userStore.setUser(response.user);
+    userStore.setUser(response);
 
+    console.log(userStore.user)
     showSuccessPopup.value = true;
 
     setTimeout(async () => {

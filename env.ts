@@ -1,5 +1,6 @@
 const variables = [
-    'VITE_JACK_POT_SERVICE_URL',
+    'VITE_AUTH_SERVICE_URL',
+    'VITE_TOKEN_SERVICE_URL',
 ];
 
 export default variables;

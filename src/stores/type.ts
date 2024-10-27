@@ -14,7 +14,7 @@ export type RegisterRequest = {
     password: string,
 };
 
-export type LoginBody = {
+export type LoggedUser = {
     token: Record<string, string>,
     user: User,
 };

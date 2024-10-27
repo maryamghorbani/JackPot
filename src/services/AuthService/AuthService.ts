@@ -1,13 +1,9 @@
 import axios from "axios";
-import {LoginBody, LoginRequest, PlayData, RegisterRequest, ReturnedUser, User} from "../../stores/type";
+import { LoggedUser, LoginRequest, PlayData, RegisterRequest, ReturnedUser } from "../../stores/type";
 
-const url = import.meta.env.VITE_JACK_POT_SERVICE_URL as string;
+const url = import.meta.env.VITE_AUTH_SERVICE_URL as string;
 
 class AuthService {
-  public tokenBalance = {
-    balance: 1,
-    updated_at: "2024-10-25T07:14:01.279002Z"
-  };
 
   public playData = {
     play: {
@@ -27,7 +23,7 @@ class AuthService {
     balance: 11
   }
 
-  login = async (user: LoginRequest): Promise<LoginBody> => {
+  login = async (user: LoginRequest): Promise<LoggedUser> => {
     try {
       const response = await axios.post(`${url}/users/login/`, user);
       return response.data;
@@ -49,10 +45,6 @@ class AuthService {
 
   logout = async (): Promise<void> => {
     console.log('user logged out');
-  };
-
-  getTokenBalance = async (): Promise<Record<string, string|number>> => {
-    return this.tokenBalance;
   };
 
   getPlayData = async (): Promise<PlayData> => {
