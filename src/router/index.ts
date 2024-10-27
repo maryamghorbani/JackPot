@@ -13,6 +13,7 @@ const router = createRouter({
     },
     {
       path: '/login',
+      name: 'login',
       meta: {
         requiresPublic: true,
       },

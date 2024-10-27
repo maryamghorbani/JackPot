@@ -124,7 +124,6 @@ const onLoginRequest = async () => {
     const response = await authService.login(loginForm.value);
     userStore.setUser(response);
 
-    console.log(userStore.user)
     showSuccessPopup.value = true;
 
     setTimeout(async () => {

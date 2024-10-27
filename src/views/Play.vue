@@ -23,6 +23,7 @@
     <img src="https://media.lordicon.com/icons/wired/gradient/29-play-pause-circle.svg" alt="playIcon" width="100"/>
     <p class="ml-2">Play</p>
   </button>
+
   <PlayResult
       v-else
       :isWon="isWon"
@@ -33,14 +34,26 @@
 
   <img src="../assets/images/slot-machine-symbols.svg" alt="playImage" class="-mt-24 absolute" width="400"/>
 
+  <!-- Error Popup -->
+  <div v-if="showErrorPopup" class="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50">
+    <div class="bg-white p-6 rounded shadow-lg max-w-md w-full">
+      <h3 class="text-lg font-semibold text-red-600">Error</h3>
+      <p class="mt-4 text-sm text-gray-700">
+        {{ errorMessage }}
+      </p>
+      <button @click="closeErrorPopup" class="mt-4 px-4 py-2 bg-cyan-600 text-white rounded">
+        Back
+      </button>
+    </div>
+  </div>
+
 </template>
 <script setup lang="ts">
 import { useUserStore } from "../stores/UserStore";
 import { ref } from "vue";
-import authService from "../services/AuthService/AuthService";
 import { getTokenBalance } from "../services/TokenService/TokenService";
+import { getPlayData } from "../services/MachineService/MachineService";
 import PlayResult from "./PlayResult.vue";
-import {LoggedUser} from "../stores/type";
 
 const userStore = useUserStore();
 const username = ref(userStore.loggedUser?.user.name || 'Guest');
@@ -48,14 +61,30 @@ const balance = ref();
 const isBtnShow = ref(true);
 const isWon = ref(false);
 const playResult = ref();
-const onSubmitPlay = () => {
-  isBtnShow.value = false;
-  authService.getPlayData().then((response) => {
+const showErrorPopup = ref(false);
+const errorMessage = ref('');
+
+const onSubmitPlay = async () => {
+  try {
+    const response = await getPlayData();
+    isBtnShow.value = false;
     isWon.value = response.play.won;
+    balance.value = response.balance;
     playResult.value = response.play.result;
-    balance.value = isWon.value ? response.balance : balance.value;
-    console.log(response)
-  });
+  } catch (error: any) {
+    if (error.response && error.response.status === 403) {
+      isBtnShow.value = true;
+      errorMessage.value = error.response.data.error;
+      showErrorPopup.value = true;
+    } else {
+      console.error("An unexpected error occurred:", error);
+    }
+  }
+};
+
+const closeErrorPopup = () => {
+  showErrorPopup.value = false;
+  isBtnShow.value = true;
 };
 
 getTokenBalance().then((response) => {

@@ -11,7 +11,7 @@ export const useUserStore = defineStore('user', {
     message: string,
   } => ({
     status: 'logout',
-    loggedUser: null,
+    loggedUser: JSON.parse(localStorage.getItem('loggedUser') as string) || null,
     totpDevice: '',
     message: '',
   }),
@@ -30,15 +30,21 @@ export const useUserStore = defineStore('user', {
     async logout() {
       this.setStatus('logout');
       await authService.logout();
+      this.clearUser();
     },
     setUser(value) {
       this.loggedUser = value;
+      localStorage.setItem('loggedUser', JSON.stringify(value));
     },
     setTotpDevice(value) {
       this.totpDevice = value;
     },
     setMessage(value) {
       this.message = value;
+    },
+    clearUser() {
+      this.loggedUser = null;
+      localStorage.removeItem('loggedUser'); // Clear from localStorage
     },
   },
 });
