@@ -92,16 +92,25 @@
             </div>
           </form>
 
-          <div>
-            <div class="relative mt-10">
-              <div class="absolute inset-0 flex items-center" aria-hidden="true">
-                <div class="w-full border-t border-gray-200" />
-              </div>
-              <div class="relative flex justify-center text-sm font-medium leading-6">
-                <span class="bg-white px-6 text-gray-900">Or continue with</span>
-              </div>
+          <!-- Error -->
+          <div v-if="showRegisterError" class="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50">
+            <div class="bg-white p-6 rounded shadow-lg max-w-md w-full">
+              <h3 class="text-lg font-semibold text-red-600">Registration Error</h3>
+              <ul class="mt-4 text-sm text-gray-700">
+                <li v-for="(message, field) in errorMessages" :key="field">
+                  <strong>{{ field }}:</strong>
+                  <ul>
+                    <li v-for="msg in message" :key="msg">{{ msg }}</li>
+                  </ul>
+                </li>
+              </ul>
+              <button @click="showRegisterError = false" class="mt-4 px-4 py-2 bg-cyan-600 text-white rounded">
+                Close
+              </button>
             </div>
+          </div>
 
+          <div>
             <p class="mt-6 text-center text-sm text-gray-500">
               Do you have an account?
               {{ ' ' }}
@@ -130,6 +139,9 @@ const registerForm = ref<RegisterRequest | null>({
 });
 const confirmPassword = ref<string>('');
 const isPasswordMatch = ref(true);
+const showRegisterError = ref(false);
+const errorMessages = ref<{ [key: string]: string[] }>({});
+
 
 const preLoader = ref<boolean>(true);
 
@@ -141,18 +153,25 @@ const passwordsMatch = () => {
 const onRegister = async () => {
   passwordsMatch();
   if (!isPasswordMatch.value) return;
-  const data = await userStore.register();
 
-  userStore.setTotpDevice(data.user.totp_device);
-  userStore.setMessage(data.message);
+  try {
+    const data = await userStore.register(registerForm.value);
+    userStore.setTotpDevice(data.user.totp_device);
+    userStore.setMessage(data.message);
 
-  await router.push({
-    name: 'ShowBarcode',
-    params: {
-      totpDevice: data.user.totp_device,
-      message: data.message
+    await router.push({
+      name: 'ShowBarcode',
+      params: {
+        totpDevice: data.user.totp_device,
+        message: data.message
+      }
+    });
+  } catch (error: any) {
+    if (error.response && error.response.status !== 200) {
+      errorMessages.value = error.response.data;
+      showRegisterError.value = true;
     }
-  });
+  }
 };
 
 </script>

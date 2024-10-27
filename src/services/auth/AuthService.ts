@@ -1,4 +1,7 @@
-import {LoginBody, PlayData, ReturnedUser} from "../../stores/type";
+import axios from "axios";
+import {LoginBody, PlayData, ReturnedUser, User} from "../../stores/type";
+
+const url = import.meta.env.VITE_JACK_POT_SERVICE_URL as string;
 
 class AuthService {
   public registerReturnedForm = {
@@ -50,8 +53,14 @@ class AuthService {
     return this.loggedUser;
   };
 
-  register = async (): Promise<ReturnedUser> => {
-    return this.registerReturnedForm;
+  register = async (userData: User): Promise<ReturnedUser> => {
+    try {
+      const response = await axios.post(`${url}/users/register/`, userData);
+      return response.data;
+    } catch (error) {
+      console.error("Registration failed:", error);
+      throw error;
+    }
   };
 
   logout = async (): Promise<void> => {

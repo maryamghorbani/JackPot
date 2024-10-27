@@ -37,7 +37,7 @@
 <script setup lang="ts">
 import { useUserStore } from "../stores/UserStore";
 import { ref } from "vue";
-import AuthService from "../services/auth/authService";
+import authService from "../services/auth/AuthService";
 import PlayResult from "./PlayResult.vue";
 
 const userStore = useUserStore();
@@ -48,7 +48,7 @@ const isWon = ref(false);
 const playResult = ref();
 const onSubmitPlay = () => {
   isBtnShow.value = false;
-  AuthService.getPlayData().then((response) => {
+  authService.getPlayData().then((response) => {
     isWon.value = response.play.won;
     playResult.value = response.play.result;
     balance.value = isWon.value ? response.balance : balance.value;
@@ -56,7 +56,7 @@ const onSubmitPlay = () => {
   });
 };
 
-AuthService.getTokenBalance().then((response) => {
+authService.getTokenBalance().then((response) => {
   console.log(response.balance)
   balance.value = response.balance;
 });

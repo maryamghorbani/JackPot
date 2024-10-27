@@ -9,4 +9,8 @@ export default defineConfig({
       'vue-router': 'vue-router/dist/vue-router.esm-bundler.js',
     },
   },
+  server: {
+    host: '0.0.0.0',
+    port: 5173
+  }
 })

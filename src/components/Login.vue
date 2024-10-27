@@ -87,7 +87,7 @@ import { ref, computed } from 'vue';
 import { LoginRequest } from "../stores/type";
 import { useUserStore } from "../stores/UserStore";
 import router from "../router";
-import authService from "../services/auth/authService";
+import authService from "../services/auth/AuthService";
 
 const userStore = useUserStore();
 

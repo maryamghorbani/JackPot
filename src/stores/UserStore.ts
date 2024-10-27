@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia';
-import authService from '../services/auth/authService';
+import authService from '../services/auth/AuthService';
 import type { User, Status, LoginRequest, RegisterRequest } from './type';
 
 
@@ -23,7 +23,7 @@ export const useUserStore = defineStore('user', {
       this.setStatus('login');
       return await authService.login();
     },
-    async register() {
+    async register(userData: RegisterRequest) {
       this.setStatus('register');
       return await authService.register();
     },
