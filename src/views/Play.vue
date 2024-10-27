@@ -77,12 +77,12 @@ const onSubmitPlay = async () => {
 
     const response = await getPlayData();
     playResult.value = response.play.result;
+    slotMachineName.value = response.play.slot_machine.name;
     setTimeout(() => {
       isLoading.value = false;
-      slotMachineName.value = response.play.slot_machine.name;
       isWon.value = response.play.won;
       balance.value = response.balance;
-    }, 3000);
+    }, 1500);
   } catch (error: any) {
 
     if (error.response && error.response.status === 403) {

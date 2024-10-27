@@ -2,7 +2,7 @@
   <div class="play-area">
     <div class="slot-machine-frame">
 
-      <div v-if="!isLoadingProcess" class="slot-machine-name">{{ slotMachineName }}</div>
+      <div class="slot-machine-name">{{ slotMachineName }}</div>
 
       <div v-if="!isLoadingProcess" class="result-text">{{ isWon ? 'YOU WON!' : 'YOU LOST!' }}</div>
       <div class="symbols-display">
@@ -62,7 +62,7 @@ function onBackToGame() {
 
 onMounted(() => {
   startLoadingEffect();
-  setTimeout(stopLoadingEffect, 3000);
+  setTimeout(stopLoadingEffect, 1500);
 });
 
 onUnmounted(() => {

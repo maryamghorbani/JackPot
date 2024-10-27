@@ -16,6 +16,7 @@
 }
 
 body {
+  color-scheme: light;
   margin: 0;
   place-items: center;
 }
@@ -27,4 +28,11 @@ h1 {
 
 #app {
   margin: 0 auto;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    color-scheme: light;
+  }
+
 }
