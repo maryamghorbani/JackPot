@@ -1,5 +1,5 @@
 <template>
-  <header class="w-full fixed top-0 left-0 flex flex-col items-end py-4 px-6 bg-white shadow-md">
+  <header class="w-full fixed top-0 left-0 flex flex-col items-end py-4 px-6 bg-white shadow-md z-10">
     <div class="flex items-center space-x-2">
       <span class="text-gray-900 font-medium">{{ username }} /</span>
       <router-link
@@ -14,23 +14,28 @@
       Your balance is {{ balance }} tokens
     </div>
   </header>
-  <button
-      v-if="isBtnShow"
-      type="submit"
-      class="flex w-96 justify-center items-center rounded-md bg-slate-600 mt-96 mx-auto py-14 text-4xl font-semibold leading-6 text-indigo-200 shadow-sm hover:bg-slate-300 hover:text-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-slate-600"
-      @click="onSubmitPlay"
-  >
-    <img src="https://media.lordicon.com/icons/wired/gradient/29-play-pause-circle.svg" alt="playIcon" width="100"/>
-    <p class="ml-2">Play</p>
-  </button>
 
-  <PlayResult
-      v-else
-      :isWon="isWon"
-      :balance="balance"
-      :playResult="playResult"
-      @btn-visibility="handleBtnVisibility"
-  />
+  <!-- Main Play Area -->
+  <div class="play-area-button flex items-center justify-center min-h-screen">
+    <button
+        v-if="isBtnShow"
+        type="submit"
+        class="play-button"
+        @click="onSubmitPlay"
+    >
+      <img src="https://media.lordicon.com/icons/wired/gradient/29-play-pause-circle.svg" alt="playIcon" width="60"/>
+      <p class="ml-2 text-4xl font-bold">Play</p>
+    </button>
+
+    <PlayResult
+        v-else
+        :is-loading-process="isLoading"
+        :isWon="isWon"
+        :balance="balance"
+        :playResult="playResult"
+        @btn-visibility="handleBtnVisibility"
+    />
+  </div>
 
   <!-- Error Popup -->
   <div v-if="showErrorPopup" class="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50">
@@ -44,8 +49,8 @@
       </button>
     </div>
   </div>
-
 </template>
+
 <script setup lang="ts">
 import { useUserStore } from "../stores/UserStore";
 import { ref } from "vue";
@@ -58,18 +63,26 @@ const username = ref(userStore.loggedUser?.user.name || 'Guest');
 const balance = ref();
 const isBtnShow = ref(true);
 const isWon = ref(false);
-const playResult = ref();
+const playResult = ref([]);
 const showErrorPopup = ref(false);
 const errorMessage = ref('');
+const isLoading = ref(false);
 
 const onSubmitPlay = async () => {
   try {
+    isLoading.value = true;
+    isBtnShow.value = false; // Hide the play button immediately
+
+    // Start a loading delay of 4 seconds before showing the final result
     const response = await getPlayData();
-    isBtnShow.value = false;
-    isWon.value = response.play.won;
-    balance.value = response.balance;
-    playResult.value = response.play.result;
+    playResult.value = response.play.result; // Show final play result after delay
+    setTimeout(() => {
+      isLoading.value = false;
+      isWon.value = response.play.won; // Update win/loss status after delay
+      balance.value = response.balance; // Update token balance after delay
+    }, 3000);
   } catch (error: any) {
+    // Handle error as before
     if (error.response && error.response.status === 403) {
       isBtnShow.value = true;
       errorMessage.value = error.response.data.error;
@@ -95,3 +108,49 @@ const handleBtnVisibility = () => {
   isBtnShow.value = true;
 };
 </script>
+
+<style scoped>
+.play-area-button {
+  background: linear-gradient(135deg, #1a2a6c, #799eb6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-top: 4rem;
+}
+
+.play-button {
+  display: flex;
+  align-items: center;
+  padding: 20px 40px;
+  background: linear-gradient(145deg, #4a5568, #2d3748);
+  color: #edf2f7;
+  border-radius: 15px;
+  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 1.5rem;
+  transform: translateY(0);
+}
+
+.play-button:hover {
+  background: linear-gradient(145deg, #2d3748, #4a5568);
+  transform: translateY(-4px);
+  box-shadow: 0 8px 14px rgba(0, 0, 0, 0.3);
+}
+
+.play-button:active {
+  transform: translateY(2px);
+}
+
+.play-button img {
+  margin-right: 10px;
+}
+
+.play-button p {
+  font-size: 2rem;
+}
+
+.fixed-header {
+  z-index: 10;
+}
+</style>

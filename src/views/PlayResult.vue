@@ -1,7 +1,7 @@
 <template>
   <div class="play-area">
     <div class="slot-machine-frame">
-      <div class="result-text">{{ isWon ? 'YOU WON!' : 'YOU LOST!' }}</div>
+      <div v-if="!isLoadingProcess" class="result-text">{{ isWon ? 'YOU WON!' : 'YOU LOST!' }}</div>
       <div class="symbols-display">
         <span v-for="(item, index) in currentSymbols" :key="index" :class="{'symbol': true, 'spin': isLoading}">
           {{ item }}
@@ -9,10 +9,10 @@
       </div>
     </div>
 
-    <p class="balance-text">
+    <p v-if="!isLoadingProcess" class="balance-text">
       {{ isWon ? `Your balance now is ${balance} 😉` : 'Sorry, you lost 😔' }}
     </p>
-    <button @click="onBackToGame" class="play-again-button">
+    <button v-if="!isLoadingProcess" @click="onBackToGame" class="play-again-button">
       {{ isWon ? 'Let’s play again' : 'No worries, let’s play again 😉' }}
     </button>
   </div>
@@ -22,6 +22,7 @@
 import { defineProps, defineEmits, ref, onMounted, onUnmounted } from 'vue';
 
 const props = defineProps<{
+  isLoadingProcess: boolean;
   isWon: boolean;
   balance: number;
   playResult: string[];
@@ -66,15 +67,15 @@ onUnmounted(() => {
   });
 });
 </script>
-<style scoped>
+<style>
 .play-area {
   display: flex;
   flex-direction: column;
-  margin-top: 12em;
   border-radius: 1em;
   align-items: center;
-  background: linear-gradient(135deg, #1e3c72, #2a5298);
+  background: linear-gradient(135deg, rgba(115, 119, 178, 0.6), rgba(15, 18, 56, 0.6));
   min-height: 60vh;
+  min-width: 60vw;
   color: #fff;
 }
 
